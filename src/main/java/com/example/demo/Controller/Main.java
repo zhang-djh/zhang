@@ -17,6 +17,6 @@ public class Main {
     @RequestMapping("/main")
     public String main()
     {
-        return "lzfnb";
+        return "lzfnbnb";
     }
 }
