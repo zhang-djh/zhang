@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CourseRepository extends CrudRepository<Course, Integer>, JpaRepository<Course, Integer>, PagingAndSortingRepository<Course,Integer>, JpaSpecificationExecutor<Course> {
+
 }
