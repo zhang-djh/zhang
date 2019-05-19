@@ -23,16 +23,24 @@ public class StudentService {
 
 
     @Transactional
-    public List<Integer> gethiscourse(int stuid)//获得该同学所有的课程,并且是指定的日期
+    //获得该同学所有的课程,并且是指定的日期,日期格式是yyyy-mm-dd
+    public List<Integer> gethiscourse(int stuid,String time)
     {
         List<Integer> allcourses = new ArrayList<>();
         List<StudentCourse> list = studentCourseRepository.findByStudentId(stuid);//获得该同学所有课程，但没有考虑时间
-        Date currentTime = new Date();
+        System.out.println(list.size());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String today = formatter.format(currentTime);
-
-
-
+        for(int i=0;i<list.size();i++)
+        {
+            Date date = courseRepository.findByCourseId(list.get(i).getCourseId()).getDate();
+            System.out.println(formatter.format(date));
+            String form = formatter.format(date);
+            if(form.equals(time))
+            {
+                System.out.println(i);
+                allcourses.add(list.get(i).getCourseId());
+            }
+        }
         return allcourses;
     }
 }
