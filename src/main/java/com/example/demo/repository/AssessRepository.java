@@ -6,5 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
+
 public interface AssessRepository extends CrudRepository<Assess, Integer>, JpaRepository<Assess, Integer>, PagingAndSortingRepository<Assess,Integer>, JpaSpecificationExecutor<Assess> {
+    List<Assess> findByAssesscontentIdAndAndBeassessIdAndAssesserId(int acid,int baid,int assid);
 }
