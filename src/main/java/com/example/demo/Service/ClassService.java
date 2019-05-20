@@ -21,16 +21,10 @@ public class ClassService {
     {
         List<String> allcontent = new ArrayList<>();
         List<AssessContent> teachercontent = assessContentRepository.findByCourseId(courseid);
-        List<AssessContent> admincontent = assessContentRepository.findByCourseId(-1);
         for(int i=0;i<teachercontent.size();i++)
         {
             allcontent.add(teachercontent.get(i).getContent());
         }
-        for (int i=0;i<admincontent.size();i++)
-        {
-            allcontent.add(admincontent.get(i).getContent());
-        }
-
         return allcontent;
     }
 }

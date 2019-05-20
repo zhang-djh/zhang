@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface AssessRepository extends CrudRepository<Assess, Integer>, JpaRepository<Assess, Integer>, PagingAndSortingRepository<Assess,Integer>, JpaSpecificationExecutor<Assess> {
     List<Assess> findByAssesscontentIdAndAndBeassessIdAndAssesserId(int acid,int baid,int assid);
+    List<Assess> findByAssesscontentId(int assesscontid);
+    Assess findByAssessId(int assessid);
 }
