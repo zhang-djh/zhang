@@ -4,6 +4,7 @@ package com.example.demo.Controller;
 import com.example.demo.Domain.Course;
 import com.example.demo.Domain.Parent;
 import com.example.demo.Domain.Student;
+import com.example.demo.Service.ClassService;
 import com.example.demo.Service.StudentService;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.ParentRepository;
@@ -26,7 +27,7 @@ public class Main {
     private StudentRepository studentRepository;
 
     @Autowired
-    private ParentRepository parentRepository;
+    private ClassService classService;
 
     @Autowired
     private StudentService studentService;
@@ -44,10 +45,10 @@ public class Main {
     @ResponseBody
     public void teststu()
     {
-        List<Integer> list = studentService.getallstu(4);
+        List<String> list = classService.getallcontent(1);
         for (int i=0;i<list.size();i++)
         {
-            System.out.println(studentRepository.findByStudentId(list.get(i)).getName());
+            System.out.println(list.get(i));
         }
     }
 
