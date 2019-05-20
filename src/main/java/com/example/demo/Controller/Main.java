@@ -6,6 +6,7 @@ import com.example.demo.Domain.Parent;
 import com.example.demo.Domain.Student;
 import com.example.demo.Service.ClassService;
 import com.example.demo.Service.StudentService;
+import com.example.demo.Service.TeacherService;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.ParentRepository;
 import com.example.demo.repository.StudentRepository;
@@ -32,7 +33,8 @@ public class Main {
     @Autowired
     private StudentService studentService;
 
-
+    @Autowired
+    private TeacherService teacherService;
 
     @RequestMapping("/test")
     public String test()
@@ -56,5 +58,14 @@ public class Main {
     public String main()
     {
         return "hzjnb";
+    }
+
+    @RequestMapping("/teachercourse")
+    @ResponseBody
+    public void teachercourse(){
+        List<String> ls = teacherService.get_teacher_course(1,"2019-05-20");
+        for (int i = 0;i < ls.size();i++){
+            System.out.println(ls.get(i));
+        }
     }
 }

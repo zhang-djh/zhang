@@ -9,6 +9,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface CourseTeacherRepository extends CrudRepository<CourseTeacher, Integer>, JpaRepository<CourseTeacher, Integer>, PagingAndSortingRepository<CourseTeacher,Integer>, JpaSpecificationExecutor<CourseTeacher> {
-
-
+    List<CourseTeacher> findByTeacherId(int teacherid);
 }
