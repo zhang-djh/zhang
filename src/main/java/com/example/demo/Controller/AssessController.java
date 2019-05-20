@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/assess")
@@ -33,5 +34,27 @@ public class AssessController {
     public void getallassess(int stuid,int courseid)
     {
         assessService.getallassess(stuid,courseid);
+    }
+
+
+    @RequestMapping("/isassessed")
+    @ResponseBody
+    //查看是否给这个人评价过，评价过返回1，未评价返回0
+    public void isassessed(){
+        int is = assessService.get_studentid_by_course(2,1,2);
+        if (is == 1)
+            System.out.println("has been assessed");
+        else System.out.println("no assessed");
+    }
+
+    @RequestMapping("/assessnum")
+    @ResponseBody
+    //已知学生id、课程id，老师id，找到该老师给与该同学的评价
+    public void assessnum(){
+        Map<String,Integer> map = assessService.get_student_assess_from_teacher(1,1,2);
+        for(String key : map.keySet()){
+            int value = map.get(key);
+            System.out.println(key+" : "+value);
+        }
     }
 }
