@@ -44,14 +44,11 @@ public class Main {
     @ResponseBody
     public void teststu()
     {
-        String time = "2019-05-20";
-        System.out.println(time);
-        List<Integer> list = studentService.gethiscourse(1,time);
-        for(int i=0;i<list.size();i++)
+        List<Integer> list = studentService.getallstu(4);
+        for (int i=0;i<list.size();i++)
         {
-            System.out.println(list.get(i));
+            System.out.println(studentRepository.findByStudentId(list.get(i)).getName());
         }
-        System.out.println("----------");
     }
 
     @RequestMapping("/main")

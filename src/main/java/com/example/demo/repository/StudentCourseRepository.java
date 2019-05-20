@@ -11,4 +11,6 @@ import java.util.List;
 
 public interface StudentCourseRepository extends CrudRepository<StudentCourse, Integer>, JpaRepository<StudentCourse, Integer>, PagingAndSortingRepository<StudentCourse,Integer>, JpaSpecificationExecutor<StudentCourse> {
     List<StudentCourse> findByStudentId(int studentid);
+
+    List<StudentCourse> findByCourseId(int courseid);
 }

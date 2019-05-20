@@ -43,4 +43,19 @@ public class StudentService {
         }
         return allcourses;
     }
+
+
+    @Transactional
+    //已知某节课，得到所有同学的id
+    public List<Integer> getallstu(int courseid)
+    {
+        List<Integer> students = new ArrayList<>();
+        List<StudentCourse> all = studentCourseRepository.findByCourseId(courseid);
+        System.out.println(all.size());
+        for(int i=0;i<all.size();i++)
+        {
+            students.add(all.get(i).getStudentId());
+        }
+        return students;
+    }
 }

@@ -13,8 +13,8 @@ public class AssessContent {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "person_id")
-    private int personId;
+    @Column(name = "person_class")
+    private int personClass;
 
     @Column(name = "course_id")
     private int courseId;
@@ -36,11 +36,11 @@ public class AssessContent {
     }
 
     public int getPersonId() {
-        return personId;
+        return personClass;
     }
 
     public void setPersonId(int personId) {
-        this.personId = personId;
+        this.personClass = personId;
     }
 
     public int getCourseId() {
