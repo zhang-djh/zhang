@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/stu")
@@ -29,8 +30,8 @@ public class StudentController {
     @RequestMapping("/getallstu")
     @ResponseBody
     //已知某节课，得到所有同学的id
-    public void getallstu(int courseid)
+    public void getallstu(int courseid,int assesserid)
     {
-        List<Integer> list = studentService.getallstu(courseid);
+        Map<Integer, Integer> list = studentService.getallstu(courseid,assesserid);
     }
 }

@@ -11,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StudentService {
@@ -26,6 +24,9 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private AssessService assessService;
 
 
     @Transactional
@@ -81,17 +82,18 @@ public class StudentService {
 
 
     @Transactional
-    //已知某节课，得到所有同学的id
-    public List<Integer> getallstu(int courseid)
+    //已知某节课，得到所有同学的id，和查看同学是否被评价过，如果评价过为1，未评价为0
+    public Map<Integer,Integer> getallstu(int courseid,int assesserid)
     {
-        List<Integer> students = new ArrayList<>();
+        Map map = new HashMap();
         List<StudentCourse> all = studentCourseRepository.findByCourseId(courseid);
         System.out.println(all.size());
         for(int i=0;i<all.size();i++)
         {
-            students.add(all.get(i).getStudentId());
+            int is = assessService.get_studentid_by_course(courseid,assesserid,all.get(i).getStudentId());
+            map.put(all.get(i).getStudentId(),is);
         }
-        return students;
+        return map;
     }
 
 
