@@ -46,7 +46,9 @@ public class StudentService {
 
     @Transactional
     //获得该同学所有的课程,并且是指定的日期,日期格式是yyyy-mm-dd
-    public List<String> gethiscourse(int stuid,String time)
+    //返回的依次是：课程名、课程id、节数
+    //接口8
+    public List<List<String>> gethiscourse(int stuid,String time)
     {
         List<Integer> allcourses = new ArrayList<>();
         List<StudentCourse> list = studentCourseRepository.findByStudentId(stuid);//获得该同学所有课程，但没有考虑时间
@@ -64,12 +66,17 @@ public class StudentService {
                 allcourses.add(list.get(i).getCourseId());
             }
         }
-
+        List<List<String>> finall = new ArrayList<>();
         for (int i=0;i<allcourses.size();i++)
         {
+            List<String> al = new ArrayList<>();
+            al.add(courseRepository.findByCourseId(allcourses.get(i)).getCoursename());
+            al.add(String.valueOf(courseRepository.findByCourseId(allcourses.get(i)).getCourseId()));
+            al.add(String.valueOf(courseRepository.findByCourseId(allcourses.get(i)).getJieshu()));
             courselist.add(courseRepository.findByCourseId(allcourses.get(i)).getCoursename());
+            finall.add(al);
         }
-        return courselist;
+        return finall;
     }
 
 

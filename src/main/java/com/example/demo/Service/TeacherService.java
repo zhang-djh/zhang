@@ -45,9 +45,12 @@ public class TeacherService {
 
     @Transactional
     //通过教师的id获取教师某日的全部课程
-    public List<String> get_teacher_course(int teaid,String time){
+    //依次返回：课程名、课程id、节数
+    //接口9
+    public List<List<String>> get_teacher_course(int teaid,String time){
 
-        List<String> all_course = new ArrayList<>();
+        List<Integer> all_course = new ArrayList<>();
+        List<List<String>> finall = new ArrayList<>();
         List<CourseTeacher> list = courseTeacherRepository.findByTeacherId(teaid);
         System.out.println(list.size());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -57,9 +60,22 @@ public class TeacherService {
             String form = formatter.format(date);
             if (form.equals(time)){
                 System.out.println(i);
-                all_course.add(courseRepository.findByCourseId(list.get(i).getCourseId()).getCoursename());
+                all_course.add(list.get(i).getCourseId());
             }
         }
-        return all_course;
+
+        for(int i=0;i<all_course.size();i++)
+        {
+            List<String> alist = new ArrayList<>();
+
+            alist.add(courseRepository.findByCourseId(all_course.get(i)).getCoursename());
+            alist.add(String.valueOf(courseRepository.findByCourseId(all_course.get(i)).getCourseId()));
+            alist.add(String.valueOf(courseRepository.findByCourseId(all_course.get(i)).getJieshu()));
+            finall.add(alist);
+
+
+        }
+
+        return finall;
     }
 }

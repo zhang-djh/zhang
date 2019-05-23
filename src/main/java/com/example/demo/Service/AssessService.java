@@ -56,6 +56,7 @@ public class AssessService {
 
     @Transactional
     //已知学生id、课程id，找到同学的所有评价，并取平均值
+    //接口15
     public HashMap<String,Float> getallassess(int stuid,int courseid)
     {
         List<AssessContent> assessContentslist = assessContentRepository.findByCourseId(courseid);
@@ -125,4 +126,71 @@ public class AssessService {
 
         return assessmap;
     }
+
+
+
+
+
+
+    @Transactional
+    //评价,获取他人对某同学的评价，并存入数据库
+    //List里第一条是contentid，第二条是id
+    //接口13
+    public void assess(int asssesserid,int beassessedid,int courseid,List<List<String>> list)
+    {
+        for (int i=0;i<list.size();i++)
+        {
+            Assess a = new Assess();
+            a.setAssesserId(asssesserid);
+            a.setBeassessId(beassessedid);
+            a.setAssesscontentId(Integer.valueOf(list.get(i).get(0)));
+            a.setAssessnum(Integer.valueOf(list.get(i).get(1)));
+            assessRepository.save(a);
+        }
+    }
+
+
+    @Transactional
+    //获得评价内容
+    //接口12
+    //依次返回：评论内容、评论id
+    public List<List<String>> getcontent(int courseid)
+    {
+        List<AssessContent> contents = assessContentRepository.findByCourseId(courseid);
+        List<List<String>> finall = new ArrayList<>();
+        for (int i=0;i<contents.size();i++)
+        {
+            List<String> alist = new ArrayList<>();
+            alist.add(contents.get(i).getContent());
+            alist.add(String.valueOf(contents.get(i).getAssesscontentId()));
+            finall.add(alist);
+        }
+        return finall;
+    }
+
+    @Transactional
+    //若登陆者对该同学评价过，查看评价内容
+    //接口14
+    //参数分别是：被评人id，课程id，评价人id（登陆者）
+    public List<List<String>> get_his_assess(int studentid,int courseid,int assesserid)
+    {
+        List<List<String>> getassesslist = new ArrayList<>();
+        List<Assess> oklist = new ArrayList<>();
+        List<Assess> assesslist = assessRepository.findByAssesserIdAndBeassessId(assesserid,studentid);
+        for (int i=0;i<assesslist.size();i++)
+        {
+            if (assessContentRepository.findByAssesscontentId(assesslist.get(i).getAssesscontentId()).getCourseId()==courseid)
+                oklist.add(assesslist.get(i));
+        }
+
+        for (int i=0;i<oklist.size();i++)
+        {
+            List<String> alist = new ArrayList<>();
+            alist.add(assessContentRepository.findByAssesscontentId(assesslist.get(i).getAssesscontentId()).getContent());
+            alist.add(String.valueOf(assesslist.get(i).getAssessnum()));
+            getassesslist.add(alist);
+        }
+        return getassesslist;
+    }
+
 }

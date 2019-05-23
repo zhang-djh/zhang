@@ -21,9 +21,9 @@ public class TeacherController {
     @RequestMapping("/teachercourse")
     @ResponseBody
     public void teachercourse(){
-        List<String> ls = teacherService.get_teacher_course(1,"2019-05-20");
-        for (int i = 0;i < ls.size();i++){
-            System.out.println(ls.get(i));
+//        List<String> ls = teacherService.get_teacher_course(1,"2019-05-20");
+//        for (int i = 0;i < ls.size();i++){
+//            System.out.println(ls.get(i));
         }
-    }
+//    }
 }
