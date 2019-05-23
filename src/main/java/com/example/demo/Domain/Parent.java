@@ -13,6 +13,12 @@ public class Parent {
     @Column(name = "student_id")
     private int studentId;
 
+    @Column(name = "parent_name")
+    private String parentName;
+
+    @Column(name = "password")
+    private String password;
+
     public int getParentId() {
         return parentId;
     }
@@ -27,5 +33,21 @@ public class Parent {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

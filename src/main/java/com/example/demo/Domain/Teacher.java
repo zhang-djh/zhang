@@ -14,6 +14,9 @@ public class Teacher {
     @Column(name = "teachername")
     private String teachername;
 
+    @Column(name = "password")
+    private String password;
+
     public int getTeacherId() {
         return teacherId;
     }
@@ -28,5 +31,13 @@ public class Teacher {
 
     public void setTeachername(String teachername) {
         this.teachername = teachername;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

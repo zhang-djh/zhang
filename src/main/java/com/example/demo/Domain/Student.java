@@ -8,11 +8,11 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="student_id")
+    @Column(name = "student_id")
     private int studentId;
 
-    @Column(name = "open_id")
-    private String openId;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "name")
     private String name;
@@ -25,12 +25,12 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

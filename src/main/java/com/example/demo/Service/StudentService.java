@@ -1,11 +1,14 @@
 package com.example.demo.Service;
 
+import com.example.demo.Domain.Student;
 import com.example.demo.Domain.StudentCourse;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentCourseRepository;
+import com.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +23,25 @@ public class StudentService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+
+    @Transactional
+    //在绑定学生ID的时候查看学号和姓名是否存在于数据库里，对应接口1
+    public int isstudent(int stuid,String name){
+        List<Student> student = studentRepository.findByStudentIdAndAndName(stuid,name);
+        if (student.size() == 0) return 0;
+        else return 1;
+    }
+
+    @Transactional
+    //为学生添加密码，对应接口2
+    public void setpassword(int stuid,String password){
+        Student student = studentRepository.findByStudentId(stuid);
+        student.setPassword(password);
+    }
 
 
     @Transactional
