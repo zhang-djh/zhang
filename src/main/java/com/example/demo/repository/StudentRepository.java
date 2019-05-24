@@ -12,4 +12,5 @@ public interface StudentRepository extends CrudRepository<Student, Integer>, Jpa
 {
      Student findByStudentId(int id);
      List<Student> findByStudentIdAndAndName(int id, String name);
+     List<Student> findByStudentIdAndPassword(int id,String passwd);
 }

@@ -60,4 +60,25 @@ public class LoginController {
             parentService.setpassword(id,password);
         }
     }
+
+    @RequestMapping("/loginin")
+    @ResponseBody
+    //登录接口，对应接口7
+    public int loginin(
+//            int id,String passwd,int role
+    ){
+        int id = 1;
+        String passwd = "test";
+        int role = 1;
+        int ans = 0;
+        if (role == 1){
+            ans = studentService.stulogin(id,passwd);
+        }else if(role == 2){
+            ans = teacherService.tealogin(id,passwd);
+        }else {
+            ans = parentService.parlogin(id,passwd);
+        }
+        System.out.println(ans);
+        return ans;
+    }
 }

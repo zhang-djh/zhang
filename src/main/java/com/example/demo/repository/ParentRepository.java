@@ -12,4 +12,5 @@ public interface ParentRepository extends CrudRepository<Parent, Integer>, JpaRe
     Parent findByStudentId(int id);
     Parent findByParentId(int id);
     List<Parent> findByParentIdAndParentName(int parid, String parname);
+    List<Parent> findByParentIdAndPassword(int id,String passwd);
 }

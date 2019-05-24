@@ -44,6 +44,14 @@ public class TeacherService {
     }
 
     @Transactional
+    //老师登录接口，对应接口7
+    public int tealogin(int id,String passwd){
+        List<Teacher> teachers = teacherRepository.findByTeacherIdAndPassword(id, passwd);
+        if (teachers.size() == 0) return 0;
+        else return 1;
+    }
+
+    @Transactional
     //通过教师的id获取教师某日的全部课程
     //依次返回：课程名、课程id、节数
     //接口9

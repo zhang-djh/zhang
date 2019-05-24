@@ -12,4 +12,5 @@ import java.util.List;
 public interface TeacherRepository extends CrudRepository<Teacher, Integer>, JpaRepository<Teacher, Integer>, PagingAndSortingRepository<Teacher,Integer>, JpaSpecificationExecutor<Teacher> {
     List<Teacher> findByTeacherIdAndAndTeachername(int id, String name);
     Teacher findByTeacherId(int teaid);
+    List<Teacher> findByTeacherIdAndPassword(int id,String passwd);
 }

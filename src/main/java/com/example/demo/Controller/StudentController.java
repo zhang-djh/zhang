@@ -29,9 +29,18 @@ public class StudentController {
 
     @RequestMapping("/getallstu")
     @ResponseBody
-    //已知某节课，得到所有同学的id
-    public void getallstu(int courseid,int assesserid)
+    //已知某节课，得到所有同学的id和他们是否被评价过，map<同学id，评价过为1，为评价过为0>，对应接口11
+    public Map<Integer, Integer> getallstu(int courseid,int assesserid)
     {
         Map<Integer, Integer> list = studentService.getallstu(courseid,assesserid);
+        return list;
+    }
+
+    @RequestMapping("/getstuname")
+    @ResponseBody
+    //通过学生id获得学生的姓名，辅助接口11
+    public Map<Integer,String> stuname(List<Integer> stuid){
+        Map<Integer,String> stunames = studentService.getstuname(stuid);
+        return stunames;
     }
 }

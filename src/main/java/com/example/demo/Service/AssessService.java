@@ -1,9 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Domain.*;
-import com.example.demo.repository.AssessContentRepository;
-import com.example.demo.repository.AssessRepository;
-import com.example.demo.repository.StudentCourseRepository;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.Domain.Assess;
@@ -24,6 +22,9 @@ public class AssessService {
 
     @Autowired
     private AssessContentRepository assessContentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
 
     @Transactional
@@ -191,6 +192,28 @@ public class AssessService {
             getassesslist.add(alist);
         }
         return getassesslist;
+    }
+
+    @Transactional
+    //教师新加评价，接口16
+    public void add_assess_fromteacher(int courseid,String content){
+        AssessContent ac = new AssessContent();
+        ac.setContent(content);
+        ac.setCourseId(courseid);
+        assessContentRepository.save(ac);
+    }
+
+    @Transactional
+    //教务添加评价，接口17
+    public void add_assess_fromadmin(String content){
+        List<Course> courses = courseRepository.findAll();
+        List<Integer> contents = new ArrayList<>();
+        for (int i = 0;i <courses.size();i++){
+            contents.add(courses.get(i).getCourseId());
+        }
+        for (int i = 0;i<contents.size();i++){
+            add_assess_fromteacher(contents.get(i),content);
+        }
     }
 
 }

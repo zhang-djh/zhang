@@ -44,6 +44,26 @@ public class StudentService {
         student.setPassword(password);
     }
 
+    @Transactional
+    //学生登录，对应接口7
+    public int stulogin(int id,String passwd){
+        List<Student> students = studentRepository.findByStudentIdAndPassword(id,passwd);
+        if (students.size() == 0) return 0;
+        else return 1;
+    }
+
+    @Transactional
+    //通过学生id获得所有的学生姓名，辅助接口11
+    public Map<Integer,String> getstuname(List<Integer> stuid){
+        Map<Integer,String> stus = new HashMap();
+        for (int i = 0;i < stuid.size();i++){
+            int stu = stuid.get(i);
+            String name = studentRepository.findByStudentId(stu).getName();
+            stus.put(stu,name);
+        }
+        return stus;
+    }
+
 
     @Transactional
     //获得该同学所有的课程,并且是指定的日期,日期格式是yyyy-mm-dd

@@ -32,6 +32,14 @@ public class ParentService {
         Parent parent = parentRepository.findByParentId(stuid);
         parent.setPassword(password);
     }
+
+    @Transactional
+    //家长登录接口，对应接口7
+    public int parlogin(int id,String passwd){
+        List<Parent> parents = parentRepository.findByParentIdAndPassword(id,passwd);
+        if (parents.size() == 0) return 0;
+        else  return 1;
+    }
     @Transactional
     //已知家长id，找到学生的课程
     //接口10

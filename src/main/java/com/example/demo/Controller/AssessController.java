@@ -57,4 +57,24 @@ public class AssessController {
             System.out.println(key+" : "+value);
         }
     }
+
+    @RequestMapping("/teacheraddassess")
+    @ResponseBody
+    //老师给具体某一节课添加评论，对应接口16
+    public void addfromteacher(
+//            int courid,String content
+    ){
+        int courid = 1;
+        String content = "是否膜洪少";
+        assessService.add_assess_fromteacher(courid,content);
+    }
+
+    @RequestMapping("adminaddassess")
+    @ResponseBody
+    public void addfromadmin(
+//            String content
+    ){
+        String content = "教务加的评论";
+        assessService.add_assess_fromadmin(content);
+    }
 }
