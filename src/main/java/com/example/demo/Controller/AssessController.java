@@ -71,6 +71,7 @@ public class AssessController {
 
     @RequestMapping("adminaddassess")
     @ResponseBody
+    //教务添加评论，对应接口17
     public void addfromadmin(
 //            String content
     ){
