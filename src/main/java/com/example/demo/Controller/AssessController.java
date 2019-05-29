@@ -39,6 +39,15 @@ public class AssessController {
         assessService.getallassess((int)map.get("studentid"),(int)map.get("courseid"));
     }
 
+    @RequestMapping("/getstuassess")
+    @ResponseBody
+    //接口15 获得其他同学对这名同学这节课的评价
+    public HashMap<String,Float> getstuassess(@RequestBody Map map)
+    {
+        HashMap<String,Float> list = assessService.getallassess((int)map.get("stuid"),(int)map.get("courseid"));
+        return list;
+    }
+
 
     @RequestMapping("/isassessed")
     @ResponseBody
@@ -51,6 +60,7 @@ public class AssessController {
     @RequestMapping("/assessnum")
     @ResponseBody
     //已知学生id、课程id，老师id，找到该老师给与该同学的评价
+    //接口15
     public Map<String,Integer> assessnum(@RequestBody Map m){
         Map<String,Integer> map = assessService.get_student_assess_from_teacher((int)m.get("courseid"),(int)m.get("stuid"),(int)m.get("teaid"));
         return map;
@@ -75,11 +85,7 @@ public class AssessController {
 
     @RequestMapping("getcourseassess")
     @ResponseBody
-//    接口url：http://localhost:9000/assess/getcourseassess
-//    用途：获得某个同学这门课所有评价的平均值
-//    参数：
-//    studentid：int（学生id）
-//    coursename：Stirng（课程名称）
+//    接口18
 //    返回值：
 //    一个hashmap<评价指标，评价平均值>
     public HashMap<String,Float> getcourseallassess(@RequestBody Map map)
@@ -87,5 +93,23 @@ public class AssessController {
         HashMap<String,Float> a = new HashMap<>();
         a = assessService.getallstuassess((int)map.get("studentid"),(String)map.get("coursename"));
         return a;
+    }
+
+    @RequestMapping("/getassesscontent")
+    @ResponseBody
+    //接口12
+    public List<List<String>> getcontent(@RequestBody Map map)
+    {
+        List<List<String>> list = assessService.getcontent((int)map.get("courseid"));
+        return list;
+    }
+
+    @RequestMapping("/setassess")
+    @ResponseBody
+    //接口13
+    public void setassess(@RequestBody Map map)
+    {
+        //int asssesserid,int beassessedid,int courseid,List<List<String>> list
+        assessService.assess((int)map.get("assesserid"),(int)map.get("beassessedid"),(int)map.get("courseid"),(List<List<String>>)map.get("list"));
     }
 }
