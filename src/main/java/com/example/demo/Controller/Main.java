@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +48,13 @@ public class Main {
     @ResponseBody
     public void test()
     {
-        List<List<String>> list = assessService.get_his_assess(1,1,2);
-        for (int i=0;i<list.size();i++)
-            for (int j=0;j<list.get(i).size();j++)
-                System.out.println(list.get(i).get(j));
+
+        HashMap<String,Float> a = new HashMap<>();
+        a = assessService.getallstuassess(1,"数学");
+       for (String key : a.keySet()){
+           System.out.println(key+"  "+a.get(key));
+       }
+
 
     }
 

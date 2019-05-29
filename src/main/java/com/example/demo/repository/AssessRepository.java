@@ -13,5 +13,7 @@ public interface AssessRepository extends CrudRepository<Assess, Integer>, JpaRe
     List<Assess> findByAssesscontentId(int assesscontid);
     Assess findByAssessId(int assessid);
 
+    List<Assess> findByBeassessId(int stuid);
+
     List<Assess> findByAssesserIdAndBeassessId(int assesserid,int beassessid);
 }

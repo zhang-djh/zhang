@@ -21,6 +21,17 @@ public class Course {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "assess_num")
+    private int assessNum;
+
+    public int getAssessNum() {
+        return assessNum;
+    }
+
+    public void setAssessNum(int assessNum) {
+        this.assessNum = assessNum;
+    }
+
     public int getCourseId() {
         return courseId;
     }

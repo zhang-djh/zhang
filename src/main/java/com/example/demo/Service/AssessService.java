@@ -11,6 +11,7 @@ import com.example.demo.repository.AssessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -131,6 +132,77 @@ public class AssessService {
 
 
 
+    public HashMap<String,Integer> getallmark(int stuid,int courseid)
+    {
+        List<AssessContent> assessContentslist = assessContentRepository.findByCourseId(courseid);
+        List<Integer> contentids = new ArrayList<>();
+        List<Integer> assesslist = new ArrayList<>();
+        List<Integer> finallist = new ArrayList<>();//存的是该课程对该同学所有评价的assessid
+        HashMap<Integer,Integer> value = new HashMap<>();
+        HashMap<String,Integer> assessmap = new HashMap<>();
+        for (int i=0;i<assessContentslist.size();i++)
+        {
+            contentids.add(assessContentslist.get(i).getAssesscontentId());
+        }
+        for (int i=0;i<contentids.size();i++)
+        {
+            List<Assess> alist = assessRepository.findByAssesscontentId(contentids.get(i));
+            for (int j=0;j<alist.size();j++)
+            {
+                assesslist.add(alist.get(j).getAssessId());
+            }
+        }
+        for (int i=0;i<assesslist.size();i++)
+        {
+            int a = assessRepository.findByAssessId(assesslist.get(i)).getBeassessId();
+            if(a==stuid)
+            {
+                finallist.add(assesslist.get(i));
+            }
+        }
+
+        for (int i=0;i<finallist.size();i++)
+        {
+            if(value.containsKey(assessRepository.findByAssessId(finallist.get(i)).getAssesscontentId()))
+            {
+                Iterator iter = value.entrySet().iterator();
+                int index = 1;
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    Object key = entry.getKey();
+                    Object val = entry.getValue();
+                    if((int)key==assessRepository.findByAssessId(finallist.get(i)).getAssesscontentId())
+                    {
+                        value.replace(index,(int)val+assessRepository.findByAssessId(finallist.get(i)).getAssessnum());
+                    }
+                    index++;
+                }
+            }
+            else
+                value.put(assessRepository.findByAssessId(finallist.get(i)).getAssesscontentId(),assessRepository.findByAssessId(finallist.get(i)).getAssessnum());
+        }
+
+
+
+        Iterator iter = value.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            Object key = entry.getKey();
+            Object val = entry.getValue();
+            int num=0;
+            for(int i=0;i<finallist.size();i++)
+            {
+                if(assessRepository.findByAssessId(finallist.get(i)).getAssesscontentId()==(int)key)
+                    num++;
+            }
+            System.out.println(num);
+            assessmap.put(assessContentRepository.findByAssesscontentId((int)key).getContent(),(int)val);
+
+        }
+
+        return assessmap;
+    }
+
 
 
     @Transactional
@@ -216,6 +288,49 @@ public class AssessService {
             AssessContent ac = new AssessContent(content,0,contents.get(i));
             assessContentRepository.save(ac);
         }
+    }
+
+
+    @Transactional
+    public HashMap<String,Float> getallstuassess(int stuid,String coursename)
+    //返回这门课所有同学对这个同学的评价的平均值
+    //返回的是hashmap，第一个是评价指标，第二个是平均值
+    {
+        HashMap<String, Float> finalmap = new HashMap<>();
+        List<Course> courseList = courseRepository.findByCoursename(coursename);//这门课的所有课程id
+        int id =courseList.get(0).getCourseId();
+        List<AssessContent> contentlist = assessContentRepository.findByCourseId(id);
+        for (int i=0;i<contentlist.size();i++)
+        {
+            finalmap.put(contentlist.get(i).getContent(),(float)0);
+        }
+        for (int i = 0; i < courseList.size(); i++)
+        {
+
+//            for (String key : map.keySet()) {
+//                System.out.println("key= "+ key + " and value= " + map.get(key));
+//            }
+            int course = courseList.get(i).getCourseId();
+            HashMap<String,Integer> onemap = getallmark(stuid,course);
+
+            for (String key : onemap.keySet())
+            {
+                finalmap.put(key,finalmap.get(key)+onemap.get(key));
+            }
+        }
+
+        int num = 0;
+        List<Course> llist = courseRepository.findByCoursename(coursename);
+        for (int i=0;i<llist.size();i++)
+        {
+            num += llist.get(i).getAssessNum();
+        }
+
+        for (String key : finalmap.keySet())
+        {
+            finalmap.put(key,finalmap.get(key)/num);
+        }
+        return finalmap;
     }
 
 }

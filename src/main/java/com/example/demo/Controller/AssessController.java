@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,39 +25,35 @@ public class AssessController {
     @RequestMapping("/getallcontent")
     //得到某节课的所有评价指标
     @ResponseBody
-    public void getallcontent(int courseid)
+    public List<String> getallcontent(@RequestBody Map map)
     {
-        List<String> list = classService.getallcontent(courseid);
+        List<String> list = classService.getallcontent((int)map.get("courseid"));
+        return list;
     }
 
     @RequestMapping("/getallassess")
     @ResponseBody
     //已知学生id、课程id，找到同学的所有评价，并取平均值
-    public void getallassess(int stuid,int courseid)
+    public void getallassess(@RequestBody Map map)
     {
-        assessService.getallassess(stuid,courseid);
+        assessService.getallassess((int)map.get("studentid"),(int)map.get("courseid"));
     }
 
 
     @RequestMapping("/isassessed")
     @ResponseBody
     //查看是否给这个人评价过，评价过返回1，未评价返回0
-    public void isassessed(){
-        int is = assessService.get_studentid_by_course(2,1,2);
-        if (is == 1)
-            System.out.println("has been assessed");
-        else System.out.println("no assessed");
+    public int isassessed(@RequestBody Map map){
+        int is = assessService.get_studentid_by_course((int)map.get("courseid"),(int)map.get("assessid"),(int)map.get("beassessedid"));
+        return is;
     }
 
     @RequestMapping("/assessnum")
     @ResponseBody
     //已知学生id、课程id，老师id，找到该老师给与该同学的评价
-    public void assessnum(){
-        Map<String,Integer> map = assessService.get_student_assess_from_teacher(1,1,2);
-        for(String key : map.keySet()){
-            int value = map.get(key);
-            System.out.println(key+" : "+value);
-        }
+    public Map<String,Integer> assessnum(@RequestBody Map m){
+        Map<String,Integer> map = assessService.get_student_assess_from_teacher((int)m.get("courseid"),(int)m.get("stuid"),(int)m.get("teaid"));
+        return map;
     }
 
     @RequestMapping("/teacheraddassess")
@@ -74,5 +71,21 @@ public class AssessController {
     public void addfromadmin(@RequestBody Map map){
         String content = (String)map.get("content");
         assessService.add_assess_fromadmin(content);
+    }
+
+    @RequestMapping("getcourseassess")
+    @ResponseBody
+//    接口url：http://localhost:9000/assess/getcourseassess
+//    用途：获得某个同学这门课所有评价的平均值
+//    参数：
+//    studentid：int（学生id）
+//    coursename：Stirng（课程名称）
+//    返回值：
+//    一个hashmap<评价指标，评价平均值>
+    public HashMap<String,Float> getcourseallassess(@RequestBody Map map)
+    {
+        HashMap<String,Float> a = new HashMap<>();
+        a = assessService.getallstuassess((int)map.get("studentid"),(String)map.get("coursename"));
+        return a;
     }
 }

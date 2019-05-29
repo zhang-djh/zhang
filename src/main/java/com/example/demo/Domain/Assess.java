@@ -23,6 +23,7 @@ public class Assess {
     @Column(name = "assessnum")
     private int assessnum;
 
+
     public int getAssessId() {
         return assessId;
     }
