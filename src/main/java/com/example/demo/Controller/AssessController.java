@@ -57,7 +57,7 @@ public class AssessController {
         return is;
     }
 
-    @RequestMapping("/assessnum")
+    @RequestMapping("/getteacherassess")
     @ResponseBody
     //已知学生id、课程id，老师id，找到该老师给与该同学的评价
     //接口15
@@ -74,6 +74,17 @@ public class AssessController {
         String content = (String)map.get("content");
         assessService.add_assess_fromteacher(name,content);
     }
+
+    @RequestMapping("/getalreadyassess")
+    @ResponseBody
+    //接口14
+    public List<List<String>> getalready(@RequestBody Map map)
+    {
+        //int studentid,int courseid,int assesserid
+        List<List<String>> list = assessService.get_his_assess((int)map.get("studentid"),(int)map.get("courseid"),(int)map.get("assesserid"));
+        return list;
+    }
+
 
     @RequestMapping("adminaddassess")
     @ResponseBody

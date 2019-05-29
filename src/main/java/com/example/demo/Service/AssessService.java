@@ -294,6 +294,7 @@ public class AssessService {
     @Transactional
     public HashMap<String,Float> getallstuassess(int stuid,String coursename)
     //返回这门课所有同学对这个同学的评价的平均值
+            //接口18
     //返回的是hashmap，第一个是评价指标，第二个是平均值
     {
         HashMap<String, Float> finalmap = new HashMap<>();

@@ -25,7 +25,7 @@ public class StudentController {
     public List<List<String>> getcourse(@RequestBody Map map)
     {
 
-        List<List<String>> list = studentService.gethiscourse((int)map.get("id"),(String)map.get("date"));
+        List<List<String>> list = studentService.gethiscourse((int)map.get("stuid"),(String)map.get("date"));
         return list;
     }
 
