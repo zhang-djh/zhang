@@ -4,6 +4,7 @@ import com.example.demo.Service.AssessService;
 import com.example.demo.Service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -61,21 +62,17 @@ public class AssessController {
     @RequestMapping("/teacheraddassess")
     @ResponseBody
     //老师给具体某一节课添加评论，对应接口16
-    public void addfromteacher(
-//            int courid,String content
-    ){
-        int courid = 1;
-        String content = "是否膜洪少";
-        assessService.add_assess_fromteacher(courid,content);
+    public void addfromteacher(@RequestBody Map map){
+        String name = (String)map.get("name");
+        String content = (String)map.get("content");
+        assessService.add_assess_fromteacher(name,content);
     }
 
     @RequestMapping("adminaddassess")
     @ResponseBody
     //教务添加评论，对应接口17
-    public void addfromadmin(
-//            String content
-    ){
-        String content = "教务加的评论";
+    public void addfromadmin(@RequestBody Map map){
+        String content = (String)map.get("content");
         assessService.add_assess_fromadmin(content);
     }
 }

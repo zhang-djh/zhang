@@ -135,7 +135,7 @@ public class AssessService {
 
     @Transactional
     //评价,获取他人对某同学的评价，并存入数据库
-    //List里第一条是contentid，第二条是id
+    //List里第一条是contentid，第二条num
     //接口13
     public void assess(int asssesserid,int beassessedid,int courseid,List<List<String>> list)
     {
@@ -196,11 +196,12 @@ public class AssessService {
 
     @Transactional
     //教师新加评价，接口16
-    public void add_assess_fromteacher(int courseid,String content){
-        AssessContent ac = new AssessContent();
-        ac.setContent(content);
-        ac.setCourseId(courseid);
-        assessContentRepository.save(ac);
+    public void add_assess_fromteacher(String name,String content){
+        List<Course> courses = courseRepository.findByCoursename(name);
+        for (int i = 0;i < courses.size();i++) {
+            AssessContent ac = new AssessContent(content, 1, courses.get(i).getCourseId());
+            assessContentRepository.save(ac);
+        }
     }
 
     @Transactional
@@ -212,7 +213,8 @@ public class AssessService {
             contents.add(courses.get(i).getCourseId());
         }
         for (int i = 0;i<contents.size();i++){
-            add_assess_fromteacher(contents.get(i),content);
+            AssessContent ac = new AssessContent(content,0,contents.get(i));
+            assessContentRepository.save(ac);
         }
     }
 

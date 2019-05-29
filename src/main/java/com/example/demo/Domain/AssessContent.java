@@ -19,6 +19,13 @@ public class AssessContent {
     @Column(name = "course_id")
     private int courseId;
 
+    public AssessContent(String content,int personClass,int courseId){
+        this.assesscontentId = 0;
+        this.content = content;
+        this.personClass = personClass;
+        this.courseId = courseId;
+    }
+
     public int getAssesscontentId() {
         return assesscontentId;
     }
